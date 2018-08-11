@@ -2,8 +2,7 @@ package app
 
 import (
 	"github.com/revel/revel"
-	_ "github.com/lib/pq"
-	"database/sql"
+	"hr_portal/app/models"
 )
 
 var (
@@ -13,19 +12,6 @@ var (
 	// BuildTime revel app build-time (ldflags)
 	BuildTime string
 )
-
-var DB *sql.DB
-
-func InitDB() {
-	connstring := fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=disable", "root", "", "hr_portal")
-
-	var err error
-	DB, err = sql.Open("postgres", connstring)
-	if err != nil {
-		revel.INFO.Println("DB Error", err)
-	}
-	revel.INFO.Println("DB Connected")
-}
 
 func init() {
 	// Filters is the default set of global filters.
@@ -48,7 +34,7 @@ func init() {
 	// revel.DevMode and revel.RunMode only work inside of OnAppStart. See Example Startup Script
 	// ( order dependent )
 	// revel.OnAppStart(ExampleStartupScript)
-	revel.OnAppStart(InitDB)
+	revel.OnAppStart(models.Init_DB)
 	// revel.OnAppStart(FillCache)
 }
 
