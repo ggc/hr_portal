@@ -1,4 +1,4 @@
-import { resolve } from "url";
+import { axios } from 'axios';
 
 export class LoginService {
     static async login(creds) {
@@ -6,11 +6,21 @@ export class LoginService {
             console.log('[LOG] login creds', creds);
             if (creds.password === 'nok') {
                 throw new Error('Incorrect password');
-                reject('Incorrect pass, man');
             }
-            setTimeout(() => {
-                resolve('myToken');
-            }, 1000);
+            resolve('my.new.token');
+            // axios
+            // .post('/login', {
+            //     username: creds.username,
+            //     password: creds.password
+            // })
+            // .then((response) => {
+            //     resolve(reponse);
+            //     console.log(response);
+            // })
+            // .catch((error) => {
+            //     reject(error);
+            //     console.log(error);
+            // });
         })
     }
 }
