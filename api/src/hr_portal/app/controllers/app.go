@@ -10,9 +10,12 @@ type App struct {
 }
 
 func (c App) Index() revel.Result {
-	username := c.Params.Form.Get("username")
+	firstname := c.Params.Form.Get("firstname")
+	surname := c.Params.Form.Get("surname")
 	password := c.Params.Form.Get("password")
+	email := c.Params.Form.Get("email")
+	phone := c.Params.Form.Get("phone")
 
-	models.CreateUser(username, password)
+	models.CreateUser(firstname, surname, password, email, phone)
 	return c.Render()
 }
