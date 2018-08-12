@@ -4,10 +4,12 @@
         <transition name="inputError">
             <span class="login__input-error" v-if="notifyErrors && !isValidUsername()"> Invalid username </span>
         </transition>
+
         <input type="password" placeholder="Password" @keyup.enter="onLogin" v-model="password"/>
         <transition name="inputError">
             <span class="login__input-error" v-if="notifyErrors && !isValidPassword()"> Invalid password </span>
         </transition>
+
         <div class="login__form__buttons">
             <button>Forget password</button>
             <button @click="onLogin">Login</button>
@@ -94,24 +96,7 @@ export default {
     .inputError-leave-active {
         transition: all .3s cubic-bezier(.75,1.45, 0,.77);
     }
-    input {
-        border: 0;
-        border-radius: 9px;
-        font-size: 1em;
-        margin: .4em;
-        padding: 1em;
-        background: '##f3cdd2';
-    }
-    button {
-        margin: 1em .5em;
-        padding: .5em 1em;
-        font-size: 1em;
-        border-radius: 2em;
-        background: white;
-        color: #f54a61;
-        font-weight: bold;
-        border-width: 0;
-    }
+    
     .login__form-block {
         display: flex;
         flex-direction: column;

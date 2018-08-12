@@ -1,45 +1,49 @@
 <template>
     <div class="create-user__form-block">
+        <input placeholder="Username" v-model="username"/>
+        <input placeholder="Password" type="password" v-model="password"/>
+        <password-quality-level :password="password"></password-quality-level>
         <input placeholder="First name" v-model="firstName"/>
         <input placeholder="Last name" v-model="lastName"/>
-        <input placeholder="Contractor" v-model="contractor"/>
         <input placeholder="Project" v-model="project"/>
         <button @click="onSave">Save</button>
     </div>
 </template>
 
 <script>
-import { UserService } from '../../services/user.service'; 
+import { UserService } from '../../services/user.service';
+import passwordQualityLevel from '../../components/password-quality-level';
 
 export default {
     name: 'CreateUserPage',
-
+    components: {
+        passwordQualityLevel
+    },
     data() {
         return {
+            username: '',
+            password: '',
             firstName: '',
             lastName: '',
-            contractor: '',
             project: ''
-        }
-    },
-    methods: {
-        onSave() {
-            console.log('[LOG] userservice', UserService.createUser(this.userData));
-            console.log('[LOG] onSave', this.firstName, this.lastName, this.contractor, this.project);
-            this.firstName = '';
-            this.lastName = '';
-            this.contractor = '';
-            this.project = '';
         }
     },
     computed: {
         userData() {
             return {
+                username: this.username,
+                password: this.password,
                 firstName: this.firstName,
                 lastName: this.lastName,
-                contractor: this.contractor,
-                project: this.project,
+                project: this.project
             }
+        }
+    },
+    methods: {
+        async onSave() {
+            console.log('[LOG] saving user...');
+            const res = await UserService.createUser(this.userData);
+            console.log('[LOG] user saved!', res);
         }
     }
 }
@@ -51,5 +55,4 @@ export default {
         display: flex;
         flex-direction: column;
     }
-
 </style>

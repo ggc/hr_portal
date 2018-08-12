@@ -1,5 +1,19 @@
+import { axios } from 'axios';
+
 export class UserService {
-    static createUser(user) {
-        console.log('[LOG] User created', user);
+    static async createUser(newUser) {
+
+        console.log('[LOG] all', newUser);
+        return new Promise((resolve, reject) => {
+            if (!newUser) {
+                reject('Empty user');
+                return;
+            }
+            setTimeout(() => {
+                resolve(newUser);
+            }, 1000);
+        })
+        // return axios
+        //     .post('', newUser);
     }
 }
