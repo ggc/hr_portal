@@ -1,6 +1,6 @@
 <template>
     <div class="login__form-block">
-        <input placeholder="Username" @keyup.enter="onLogin" v-model="username"/>
+        <input placeholder="Username" @keyup.enter="focusNextInput" v-model="username"/>
         <transition name="inputError">
             <span class="login__input-error" v-if="notifyErrors && !isValidUsername()"> Invalid username </span>
         </transition>
@@ -49,6 +49,15 @@ export default {
         isValidPassword() {
             // TODO: Subs by regex
             return this.password.trim().indexOf(' ') === -1 && this.password;
+        },
+        focusNextInput(event) {
+            do {
+                const sibling = event.target.nextElementSibling;
+                if (sibling.localName === 'input') {
+                    sibling.focus();
+                    return;
+                }
+            } while(sibling);
         }
     },
     computed: {
@@ -58,11 +67,6 @@ export default {
                 password: this.password
             }
         }
-    },
-    watch: {
-        creds() {
-            this.notifyErrors = false;
-        }
     }
 }
 </script>
@@ -71,23 +75,42 @@ export default {
 <!-- enter-active: Enter transition -->
 <!-- leave-active: Leave transition -->
 <!-- enter/leave-to: Ironicaly, the off state -->
+<!-- 
+    .inputError-leave-active {
+        transform: translateX(200%);
+        transition: all 3s ease;
+    }-->
 <style scoped>
     .inputError-enter-active {
-        transition: all .3s cubic-bezier(.37,-0.06,.49,1.43);
-    }    
-    .inputError-leave-active {
-        transition: all .3s ease-in;
+        transition: all .2s cubic-bezier(0,.77,.75,1.45);
     }
-    .inputError-enter, .inputError-leave-to {
+    .inputError-enter {
+        transform: translateY(-100%);
+    }
+    .inputError-leave-to {
         opacity: 0;
-        transform: translateX(-200%);
+        transform: translateY(-100%);
     }
-
+    .inputError-leave-active {
+        transition: all .3s cubic-bezier(.75,1.45, 0,.77);
+    }
     input {
+        border: 0;
+        border-radius: 9px;
+        font-size: 1em;
         margin: .4em;
+        padding: 1em;
+        background: '##f3cdd2';
     }
     button {
-        margin: .4em;
+        margin: 1em .5em;
+        padding: .5em 1em;
+        font-size: 1em;
+        border-radius: 2em;
+        background: white;
+        color: #f54a61;
+        font-weight: bold;
+        border-width: 0;
     }
     .login__form-block {
         display: flex;
@@ -98,8 +121,10 @@ export default {
         justify-content: flex-end;
     }
     .login__input-error {
-        color: #ff8080;
+        color: white;
         margin: 0 1em;
         align-self: flex-start;
+        border-bottom: 2px solid;
+        padding: 2px;
     }
 </style>
